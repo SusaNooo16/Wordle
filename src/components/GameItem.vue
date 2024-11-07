@@ -1,5 +1,5 @@
 <script setup>
-import { computed, inject } from 'vue'
+import { computed, inject, ref, watch } from 'vue'
 
 const props = defineProps({
   index: {
@@ -25,6 +25,23 @@ const props = defineProps({
 })
 
 const word = inject('word')
+const hidden = ref(props.hidden)
+watch(
+  () => props.hidden,
+  () => {
+    if (props.hidden) {
+      hidden.value = props.hidden
+      return
+    }
+    const timer = setTimeout(
+      () => {
+        hidden.value = props.hidden
+        clearTimeout(timer)
+      },
+      200 * (props.index + 1),
+    )
+  },
+)
 
 const themeClasses = {
   green: 'game-container__item_theme_green',
@@ -37,7 +54,7 @@ const classes = computed(() => {
     return 'game-container__item_error'
   }
 
-  if (props.hidden) {
+  if (hidden.value) {
     return
   }
   const resultClasses = ['game-container__item_rotate']

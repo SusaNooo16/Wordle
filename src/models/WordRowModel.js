@@ -1,6 +1,5 @@
 import words1 from '../../assets/words'
 const words = words1.filter(word => word.length == 5)
-console.log(words)
 
 const countLettersOfWord = 5
 export default class WordRowModel {

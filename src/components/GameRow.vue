@@ -1,32 +1,14 @@
 <script setup>
 import WordRowModel from '@/models/WordRowModel'
-import { computed, ref, watch } from 'vue'
+import { computed, ref } from 'vue'
 import GameItem from './GameItem.vue'
 
-const props = defineProps({
+defineProps({
   row: {
     type: WordRowModel,
     required: true,
   },
 })
-const hiddenList = ref(Array(props.row.letters.length).fill(true))
-
-watch(
-  () => props.row.isFilled,
-  () => {
-    if (props.row.isFilled) {
-      hiddenList.value[0] = false
-      let temp = 1
-      const interval = setInterval(() => {
-        hiddenList.value[temp] = false
-        temp++
-        if (hiddenList.value.length == temp) {
-          clearInterval(interval)
-        }
-      }, 200)
-    }
-  },
-)
 
 const shake = ref(false)
 
@@ -59,7 +41,7 @@ const classes = computed(() => {
       :index="index"
       :letter="letter"
       :isFilledRow="row.isFilled"
-      :hidden="hiddenList[index]"
+      :hidden="!row.isFilled"
       :isError="shake"
     />
   </div>

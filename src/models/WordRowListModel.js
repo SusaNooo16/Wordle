@@ -26,4 +26,28 @@ export default class WordRowListModel extends Array {
   get isAllRowFilled() {
     return this.every(row => row.isFilled)
   }
+  get inputedLetters() {
+    let result = new Set(
+      this.reduce((acc, x) => {
+        if (!x.isFilled) {
+          return acc
+        }
+        return [...acc, ...x.word.split('')]
+      }, []),
+    )
+    return Array.from(result)
+  }
+  get inputedLettersWithIndex() {
+    return this.reduce((acc, x) => {
+      if (!x.isFilled) {
+        return acc
+      }
+
+      const lettersWithIndex = x.word.split('').map((letter, index) => ({
+        letter,
+        index,
+      }))
+      return [...acc, ...lettersWithIndex]
+    }, [])
+  }
 }
