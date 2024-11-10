@@ -58,9 +58,9 @@ const classes = computed(() => {
     return
   }
   const resultClasses = ['game-container__item_rotate']
-  if (word[props.index] == props.letter) {
+  if (word.value[props.index] == props.letter) {
     resultClasses.push(themeClasses.green)
-  } else if (word.includes(props.letter)) {
+  } else if (word.value.includes(props.letter)) {
     resultClasses.push(themeClasses.yellow)
   } else {
     resultClasses.push(themeClasses.gray)

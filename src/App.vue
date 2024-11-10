@@ -8,8 +8,8 @@ import WordRowListModel from './models/WordRowListModel'
 
 import wordReferenceList from '../assets/words.js'
 
-let word = getRandomWord()
-provide('word', word)
+let word = ref(getRandomWord())
+const wordRowList = ref(new WordRowListModel())
 
 const isWin = ref(false)
 const isLose = computed(() => wordRowList.value.isAllRowFilled)
@@ -17,25 +17,28 @@ const isGameOver = computed(() => isWin.value || isLose.value)
 
 const inputedLetters = computed(() => wordRowList.value.inputedLetters)
 const includesInputedLetters = computed(() =>
-  inputedLetters.value.filter(x => word.includes(x)),
+  inputedLetters.value.filter(x => word.value.includes(x)),
 )
 const rightPlaceInputedLetters = computed(() =>
   wordRowList.value.inputedLettersWithIndex
-    .filter(({ letter, index }) => word.indexOf(letter) == index)
+    .filter(({ letter, index }) => word.value.indexOf(letter) == index)
     .map(({ letter }) => letter),
 )
 
+provide('word', word)
 provide('inputedLetters', inputedLetters)
 provide('includesInputedLetters', includesInputedLetters)
 provide('rightPlaceInputedLetters', rightPlaceInputedLetters)
-
-const wordRowList = ref(new WordRowListModel())
+provide('wordRowList', wordRowList)
+provide('onEnterClick', wordRowList)
+provide('onKeyDown', onKeyDown)
 
 const gameContainerRef = useTemplateRef('gameContainerRef')
 
-window.addEventListener('keydown', ({ key }) => {
+window.addEventListener('keydown', onKeyDown)
+function onKeyDown({ key }) {
   if (/[А-Яа-я]/.test(key)) {
-    wordRowList.value.setLetter(key.toLowerCase())
+    wordRowList.value.setLetter(key)
     return
   }
   if (key == 'Backspace') {
@@ -45,9 +48,9 @@ window.addEventListener('keydown', ({ key }) => {
   if (key == 'Enter') {
     onEnterClick()
   }
-})
+}
 function onEnterClick() {
-  if (word == wordRowList.value.firstUnfilledRow.word) {
+  if (word.value == wordRowList.value.firstUnfilledRow.word) {
     isWin.value = true
     wordRowList.value.firstUnfilledRow.isFilled = true
     return
@@ -59,7 +62,7 @@ function onEnterClick() {
   gameContainerRef.value.shakeRow()
 }
 function playAgain() {
-  word = getRandomWord()
+  word.value = getRandomWord()
 
   wordRowList.value = new WordRowListModel()
 
@@ -69,7 +72,7 @@ function playAgain() {
 function getRandomWord() {
   const temp = wordReferenceList.filter(word => word.length == 5)
   let newIndexOfWord = Math.floor(temp.length * Math.random())
-
+  console.log(temp[newIndexOfWord])
   return temp[newIndexOfWord]
 }
 </script>

@@ -9,12 +9,18 @@ export default class WordRowListModel extends Array {
   }
 
   setLetter(letter) {
-    this.firstUnfilledRow.setLetter(letter)
+    this.firstUnfilledRow.setLetter(letter.toLowerCase())
   }
   removeLastLetter() {
     this.firstUnfilledRow.removeLastLetter()
   }
   checkWord() {
+    if (this.firstUnfilledRow.word.length < countRows) {
+      return false
+    }
+    if (this.some((row) => row.isFilled && row.word == this.firstUnfilledRow.word)) {
+      return false
+    }
     return this.firstUnfilledRow.checkWord()
   }
   get firstUnfilledRow() {

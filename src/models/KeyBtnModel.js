@@ -1,4 +1,4 @@
-const keyBtnValuesHaveLSize = ['⌫', 'Enter']
+const keyBtnValuesHaveLSize = ['Backspace', 'Enter']
 export default class KeyBtnModel {
   constructor(keyBtnValue) {
     this.keyBtnValue = keyBtnValue

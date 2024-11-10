@@ -5,7 +5,7 @@ import KeyBtnModel from '../models/KeyBtnModel.js'
 const keyboardBtns = {
   firstRow: ['Й', 'Ц', 'У', 'К', 'Е', 'Н', 'Г', 'Ш', 'Щ', 'З', 'Х', 'Ъ'],
   secondRow: ['Ф', 'Ы', 'В', 'А', 'П', 'Р', 'О', 'Л', 'Д', 'Ж', 'Э'],
-  thirdRow: ['⌫', 'Я', 'Ч', 'С', 'М', 'И', 'Т', 'Ь', 'Б', 'Ю', 'Enter'],
+  thirdRow: ['Backspace', 'Я', 'Ч', 'С', 'М', 'И', 'Т', 'Ь', 'Б', 'Ю', 'Enter'],
 }
 for (const row in keyboardBtns) {
   keyboardBtns[row] = keyboardBtns[row].map(
